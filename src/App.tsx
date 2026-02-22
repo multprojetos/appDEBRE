@@ -18,7 +18,7 @@ import RankingPage from "@/pages/RankingPage";
 import GaleriaPage from "@/pages/GaleriaPage";
 import CalendarioPage from "@/pages/CalendarioPage";
 import MantoPage from "@/pages/MantoPage";
-import AdminPage from "@/pages/AdminPage";
+import AdminPage from "@/pages/admin/AdminPage";
 import NewsDetailPage from "@/pages/NewsDetailPage";
 import EditProfilePage from "@/pages/EditProfilePage";
 import NotificationsPage from "@/pages/NotificationsPage";
