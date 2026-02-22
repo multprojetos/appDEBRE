@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 import escudo from "@/assets/escudo-circle.png";
 import {
   Image,
@@ -55,6 +57,28 @@ interface MenuPageProps {
 }
 
 const MenuPage = ({ onNavigate }: MenuPageProps) => {
+  const { user, profile, signOut, isAdmin } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast.success('Logout realizado com sucesso!');
+    } catch (error) {
+      toast.error('Erro ao fazer logout');
+    }
+  };
+
+  // Filter admin section if not admin
+  const filteredSections = menuSections.map(section => {
+    if (section.title === "ADMINISTRAÇÃO E CONTA" && !isAdmin) {
+      return {
+        ...section,
+        items: section.items.filter(item => item.label !== "Painel Admin")
+      };
+    }
+    return section;
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -75,24 +99,26 @@ const MenuPage = ({ onNavigate }: MenuPageProps) => {
         <div className="bg-card rounded-xl p-5 shadow-sm border border-border/50 flex items-center gap-4">
           <div className="relative">
             <div className="w-16 h-16 rounded-full bg-navy flex items-center justify-center">
-              <span className="text-gold font-bold text-xl">TF</span>
+              <span className="text-gold font-bold text-xl">
+                {profile?.name?.substring(0, 2).toUpperCase() || 'TF'}
+              </span>
             </div>
             <button className="absolute -bottom-1 -right-1 w-6 h-6 bg-gold rounded-full flex items-center justify-center">
               <Pencil size={12} className="text-white" />
             </button>
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="font-bold text-foreground text-lg">Torcedor Fanático</h2>
+            <h2 className="font-bold text-foreground text-lg">{profile?.name || 'Torcedor'}</h2>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gold/10 text-gold text-[11px] font-bold mt-0.5">
-              ⭐ TORCEDOR REGISTRADO
+              {isAdmin ? '👑 ADMINISTRADOR' : '⭐ TORCEDOR REGISTRADO'}
             </span>
-            <p className="text-xs text-muted-foreground mt-1">torcedor@debre.com</p>
+            <p className="text-xs text-muted-foreground mt-1">{user?.email}</p>
           </div>
         </div>
       </div>
 
       {/* Menu sections */}
-      {menuSections.map((section) => (
+      {filteredSections.map((section) => (
         <div key={section.title} className="px-4 mt-5">
           <h3 className="text-[11px] font-bold text-muted-foreground tracking-wider mb-2">
             {section.title}
@@ -129,7 +155,10 @@ const MenuPage = ({ onNavigate }: MenuPageProps) => {
 
       {/* Logout */}
       <div className="px-4 mt-5">
-        <button className="w-full py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-semibold flex items-center justify-center gap-2 hover:bg-destructive/5 transition-colors">
+        <button 
+          onClick={handleLogout}
+          className="w-full py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-semibold flex items-center justify-center gap-2 hover:bg-destructive/5 transition-colors"
+        >
           <LogOut size={16} />
           Sair da Conta
         </button>

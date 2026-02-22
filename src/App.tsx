@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 import BottomNav, { type TabId } from "@/components/BottomNav";
 import HomePage from "@/pages/HomePage";
 import NewsPage from "@/pages/NewsPage";
@@ -19,6 +20,7 @@ import CalendarioPage from "@/pages/CalendarioPage";
 import MantoPage from "@/pages/MantoPage";
 import AdminPage from "@/pages/AdminPage";
 import NewsDetailPage from "@/pages/NewsDetailPage";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,7 @@ const pages: Record<TabId, React.FC<{ onNavigate?: (page: string, data?: any) =>
 
 const App = () => {
   const [activePage, setActivePage] = useState<AppPage>({ type: "tab", tab: "home" });
+  const { isAdmin } = useAuth();
 
   const activeTab = activePage.type === "tab" ? activePage.tab : "more";
 
@@ -76,7 +79,13 @@ const App = () => {
         case "manto":
           return <MantoPage key="manto" onBack={handleBack} />;
         case "admin":
-          return <AdminPage key="admin" onBack={handleBack} />;
+          return isAdmin ? (
+            <AdminPage key="admin" onBack={handleBack} />
+          ) : (
+            <div className="min-h-screen flex items-center justify-center">
+              <p className="text-red-600">Acesso negado. Apenas administradores.</p>
+            </div>
+          );
         case "news-detail":
           return (
             <NewsDetailPage
