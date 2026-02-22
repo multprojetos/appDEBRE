@@ -48,12 +48,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-900 via-red-800 to-black p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img 
-            src="/src/assets/escudo-circle.png" 
-            alt="Debreceni" 
-            className="w-24 h-24 mx-auto mb-4"
-          />
-          <CardTitle className="text-2xl">Debreceni App</CardTitle>
+          <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-lg">
+            <img 
+              src="/src/assets/escudo-circle.png" 
+              alt="Debreceni FC" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <CardTitle className="text-2xl font-bold">Debreceni FC</CardTitle>
           <CardDescription>Entre ou crie sua conta de torcedor</CardDescription>
         </CardHeader>
         <CardContent>
