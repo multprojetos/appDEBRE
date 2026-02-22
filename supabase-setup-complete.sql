@@ -606,3 +606,31 @@ CREATE INDEX idx_gallery_photos_match ON gallery_photos(match_id);
 
 -- You can add initial data here if needed
 -- Example: INSERT INTO players (name, position, number) VALUES ('Player Name', 'Atacante', 10);
+
+
+-- ============================================
+-- ATUALIZAÇÃO: RESENHA COM MÍDIA E EXPIRAÇÃO
+-- ============================================
+
+-- Adicionar colunas para mídia e expiração
+ALTER TABLE resenha_comments 
+ADD COLUMN IF NOT EXISTS type TEXT DEFAULT 'text' CHECK (type IN ('text', 'image', 'audio')),
+ADD COLUMN IF NOT EXISTS media_url TEXT,
+ADD COLUMN IF NOT EXISTS audio_duration INTEGER,
+ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE DEFAULT (NOW() + INTERVAL '24 hours');
+
+-- Criar índice para expiração
+CREATE INDEX IF NOT EXISTS idx_resenha_expires ON resenha_comments(expires_at);
+
+-- Função para limpar posts expirados automaticamente
+CREATE OR REPLACE FUNCTION cleanup_expired_resenha()
+RETURNS void AS $$
+BEGIN
+  -- Deletar posts expirados
+  DELETE FROM resenha_comments
+  WHERE expires_at < NOW();
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Você pode agendar esta função para rodar periodicamente
+-- ou chamá-la manualmente quando necessário

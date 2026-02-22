@@ -264,3 +264,45 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 --    const { data, error } = await supabase.storage
 --      .from('avatars')
 --      .upload(`${user.id}/avatar.jpg`, file);
+
+
+-- ============================================
+-- BUCKET PARA RESENHA (24H)
+-- ============================================
+
+-- Bucket para resenha (imagens e áudios temporários)
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('resenha', 'resenha', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Qualquer um pode ver conteúdo da resenha
+CREATE POLICY "Anyone can view resenha content"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'resenha');
+
+-- Usuários autenticados podem fazer upload
+CREATE POLICY "Authenticated users can upload to resenha"
+ON storage.objects FOR INSERT
+WITH CHECK (
+  bucket_id = 'resenha' 
+  AND auth.uid() IS NOT NULL
+);
+
+-- Usuários podem deletar próprio conteúdo
+CREATE POLICY "Users can delete own resenha content"
+ON storage.objects FOR DELETE
+USING (
+  bucket_id = 'resenha' 
+  AND auth.uid()::text = (storage.foldername(name))[1]
+);
+
+-- Admins podem deletar qualquer conteúdo da resenha
+CREATE POLICY "Admins can delete any resenha content"
+ON storage.objects FOR DELETE
+USING (
+  bucket_id = 'resenha' 
+  AND EXISTS (
+    SELECT 1 FROM user_roles 
+    WHERE user_id = auth.uid() AND role = 'admin'
+  )
+);
