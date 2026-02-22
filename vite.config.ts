@@ -18,12 +18,12 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'placeholder.svg'],
+      includeAssets: ['favicon.ico', 'robots.txt', 'escudo-192.png', 'escudo-512.png'],
       manifest: {
         name: 'Debreceni App',
         short_name: 'Debreceni',
-        description: 'Aplicativo oficial dos torcedores do Debreceni',
-        theme_color: '#991b1b',
+        description: 'Aplicativo oficial dos torcedores do Debreceni FC',
+        theme_color: '#1e3a5f',
         background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait',
@@ -31,15 +31,15 @@ export default defineConfig(({ mode }) => ({
         start_url: '/',
         icons: [
           {
-            src: '/placeholder.svg',
+            src: '/escudo-192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: '/placeholder.svg',
+            src: '/escudo-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any maskable'
           }
         ]

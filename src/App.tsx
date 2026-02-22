@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import BottomNav, { type TabId } from "@/components/BottomNav";
+import InstallPWA from "@/components/InstallPWA";
 import HomePage from "@/pages/HomePage";
 import NewsPage from "@/pages/NewsPage";
 import SquadPage from "@/pages/SquadPage";
@@ -114,6 +115,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <InstallPWA />
         <div className="min-h-screen bg-background flex justify-center">
           <div className="w-full max-w-[430px] bg-background min-h-screen relative">
             <AnimatePresence mode="wait">
