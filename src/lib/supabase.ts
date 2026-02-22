@@ -14,8 +14,15 @@ export type UserRole = 'torcedor' | 'admin';
 export interface UserProfile {
   id: string;
   email: string;
-  role: UserRole;
   name?: string;
   avatar_url?: string;
+  bio?: string;
   created_at: string;
+}
+
+export interface UserRoleRecord {
+  id: string;
+  user_id: string;
+  role: UserRole;
+  granted_at: string;
 }
