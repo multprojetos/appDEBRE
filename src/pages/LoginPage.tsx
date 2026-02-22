@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
+import escudo from '@/assets/escudo-circle.png';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -50,7 +51,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-lg">
             <img 
-              src="/src/assets/escudo-circle.png" 
+              src={escudo}
               alt="Debreceni FC" 
               className="w-full h-full object-cover"
             />
