@@ -20,6 +20,8 @@ import CalendarioPage from "@/pages/CalendarioPage";
 import MantoPage from "@/pages/MantoPage";
 import AdminPage from "@/pages/AdminPage";
 import NewsDetailPage from "@/pages/NewsDetailPage";
+import EditProfilePage from "@/pages/EditProfilePage";
+import NotificationsPage from "@/pages/NotificationsPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -86,6 +88,10 @@ const App = () => {
               <p className="text-red-600">Acesso negado. Apenas administradores.</p>
             </div>
           );
+        case "edit-profile":
+          return <EditProfilePage key="edit-profile" onBack={handleBack} />;
+        case "notifications":
+          return <NotificationsPage key="notifications" onBack={handleBack} />;
         case "news-detail":
           return (
             <NewsDetailPage

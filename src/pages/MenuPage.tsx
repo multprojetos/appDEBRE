@@ -46,8 +46,8 @@ const menuSections = [
     title: "ADMINISTRAÇÃO E CONTA",
     items: [
       { icon: Settings, label: "Painel Admin", desc: "Gerenciar conteúdo do app", color: "text-gold", page: "admin" },
-      { icon: User, label: "Editar Perfil", desc: "Alterar nome e foto", color: "text-foreground" },
-      { icon: Bell, label: "Notificações", desc: "1 nova", color: "text-foreground", badge: true },
+      { icon: User, label: "Editar Perfil", desc: "Alterar nome e foto", color: "text-foreground", page: "edit-profile" },
+      { icon: Bell, label: "Notificações", desc: "Ver suas notificações", color: "text-foreground", page: "notifications" },
     ],
   },
 ];
