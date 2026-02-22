@@ -82,13 +82,9 @@ const App = () => {
         case "manto":
           return <MantoPage key="manto" onBack={handleBack} />;
         case "admin":
-          return isAdmin ? (
-            <AdminPage key="admin" onBack={handleBack} />
-          ) : (
-            <div className="min-h-screen flex items-center justify-center">
-              <p className="text-red-600">Acesso negado. Apenas administradores.</p>
-            </div>
-          );
+          // Redirect to /admin route instead of modal
+          window.location.href = "/admin";
+          return null;
         case "edit-profile":
           return <EditProfilePage key="edit-profile" onBack={handleBack} />;
         case "notifications":
